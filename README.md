@@ -114,6 +114,19 @@ Becca builds pages by stacking "sections" (Upcoming, Featured videos, Press quot
 
 ---
 
+## Current setup (Nov 2026)
+
+| Thing | Where |
+|---|---|
+| Code | github.com/mattslipari/becca-worthington (private) |
+| Editor | https://becca-worthington.sanity.studio (Sanity project `5w8bw6qn`) |
+| Public site | https://becca-worthington.netlify.app (Netlify; **behind Netlify login until launch**) |
+| Preview site | https://becca-worthington-preview.netlify.app (Netlify; open, drafts need the editor's secret) |
+| Rebuild on publish | Sanity webhook "Rebuild website on publish" → Netlify build hook "Sanity publish" (public site only). Filtered to page document types. |
+| Preview read key | Sanity token "Website preview" (Viewer), stored in `site/.env` and the preview site's Netlify env |
+
+**At launch:** turn off the Netlify login on the public site (Visitor access), then connect the domain (step 6).
+
 ## First-time setup / go-live checklist
 
 Done once. Steps marked 🔑 need someone to sign in to an account.
@@ -157,7 +170,9 @@ In [sanity.io/manage](https://www.sanity.io/manage) → project → **Members**,
    SANITY_STUDIO_PREVIEW_URL=https://becca-worthington-preview.netlify.app npm run deploy
    ```
    Also put that URL in `studio/presentation.js` as the default, so later deploys keep it.
-4. sanity.io/manage → **API → CORS origins**: add the preview site URL (allow credentials).
+4. Netlify → preview site → **Site configuration → Access & security → Visitor access**: the preview site must
+   **not** require a Netlify login, or it can't load inside the editor (an iPad's Safari blocks logins inside embedded frames).
+   It's safe: without the editor's one-time secret, visitors only see published content.
 
 The preview site does **not** need the build hook. It's always live.
 

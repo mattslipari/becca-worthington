@@ -1,9 +1,9 @@
 import {defineDocuments, defineLocations} from 'sanity/presentation'
 
-// Where the live preview loads the website from.
-//  - while developing: the local site (npm run dev in /site)
-//  - in production: the Netlify "preview" deployment (set SANITY_STUDIO_PREVIEW_URL when deploying)
-export const PREVIEW_URL = process.env.SANITY_STUDIO_PREVIEW_URL || 'http://localhost:4321'
+// Where the live preview loads the website from: the Netlify "preview" deployment.
+// To preview your local copy instead while developing, run:
+//   SANITY_STUDIO_PREVIEW_URL=http://localhost:4321 npm run dev
+export const PREVIEW_URL = process.env.SANITY_STUDIO_PREVIEW_URL || 'https://becca-worthington-preview.netlify.app'
 
 // Which document to open when Becca navigates to a page in the preview
 const mainDocuments = defineDocuments([
