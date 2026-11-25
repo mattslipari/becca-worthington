@@ -143,7 +143,7 @@ In [sanity.io/manage](https://www.sanity.io/manage) → project → **Members**,
 
 ### 4. Connect the website
 1. Create `site/.env` from `site/.env.example` and fill in the project ID. Run `npm run dev` and check that real content shows.
-2. 🔑 Push this repo to GitHub, then in Netlify choose **Add new site → Import from GitHub**. Set base directory `site` (build settings come from `site/netlify.toml`).
+2. 🔑 Push this repo to GitHub, then in Netlify choose **Add new site → Import from GitHub**. Build settings come from `netlify.toml` at the repo root.
 3. In Netlify → **Site configuration → Environment variables**, add `PUBLIC_SANITY_PROJECT_ID` and `PUBLIC_SANITY_DATASET=production`.
 
 ### 4b. Put the preview site online 🔑

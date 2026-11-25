@@ -1,0 +1,11 @@
+# Netlify reads this automatically. The website code lives in /site.
+# The same settings are used by both Netlify sites:
+#   - the public site (static)
+#   - the preview site (has SANITY_PREVIEW_SITE=true set in its Netlify environment variables)
+[build]
+  base = "site"
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
