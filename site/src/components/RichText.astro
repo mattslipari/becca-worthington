@@ -1,0 +1,11 @@
+---
+import {PortableText} from 'astro-portabletext'
+import type {Block} from '../lib/types'
+interface Props { value?: Block[]; class?: string }
+const {value, class: className} = Astro.props
+---
+{value && value.length > 0 && (
+  <div class:list={['prose', className]}>
+    <PortableText value={value} />
+  </div>
+)}

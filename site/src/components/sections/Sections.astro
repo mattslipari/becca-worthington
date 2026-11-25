@@ -1,0 +1,34 @@
+---
+// Renders the list of sections Becca arranged in the editor, in her order.
+import type {Section} from '../../lib/types'
+import {sanityAttr, type DocRef} from '../../lib/visualEditing'
+import UpcomingSection from './UpcomingSection.astro'
+import ReelsSection from './ReelsSection.astro'
+import QuotesSection from './QuotesSection.astro'
+import ProjectsSection from './ProjectsSection.astro'
+import GallerySection from './GallerySection.astro'
+import TextSection from './TextSection.astro'
+import ContactSection from './ContactSection.astro'
+
+const components: Record<string, any> = {
+  upcomingSection: UpcomingSection,
+  reelsSection: ReelsSection,
+  quotesSection: QuotesSection,
+  projectsSection: ProjectsSection,
+  gallerySection: GallerySection,
+  textSection: TextSection,
+  contactSection: ContactSection,
+}
+
+interface Props { sections?: Section[]; doc?: DocRef }
+const {doc} = Astro.props
+const sections = (Astro.props.sections || []).filter((s) => !s.hidden && components[s._type])
+---
+{sections.map((section) => {
+  const Component = components[section._type]
+  return (
+    <div data-sanity={sanityAttr(Astro, doc, `sections[_key=="${section._key}"]`)}>
+      <Component section={section} />
+    </div>
+  )
+})}

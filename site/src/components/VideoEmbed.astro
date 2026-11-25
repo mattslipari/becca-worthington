@@ -1,0 +1,55 @@
+---
+// Shows a thumbnail with a play button; the real (heavy) player only loads when tapped.
+import {parseVideo} from '../lib/video'
+import {clean} from '../lib/visualEditing'
+interface Props { url?: string; title: string }
+const {url} = Astro.props
+const title = clean(Astro.props.title)
+const video = parseVideo(clean(url))
+---
+{video ? (
+  <div class="video" data-embed={video.embed + '&autoplay=1'}>
+    {video.thumbnail ? (
+      <button class="play" type="button" aria-label={`Play video: ${title}`}>
+        <img src={video.thumbnail} alt="" loading="lazy" />
+        <span class="play-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="28" height="28"><path d="M8 5v14l11-7z" fill="currentColor" /></svg>
+        </span>
+      </button>
+    ) : (
+      <iframe src={video.embed} title={title} loading="lazy" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen />
+    )}
+  </div>
+) : (
+  <div class="video placeholder-img">Video link not recognised</div>
+)}
+
+<style>
+  .play { all: unset; cursor: pointer; position: absolute; inset: 0; display: block; }
+  .play img { transition: transform 0.4s ease, filter 0.4s ease; }
+  .play:hover img { transform: scale(1.03); filter: brightness(0.85); }
+  .play-icon {
+    position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+    width: 4.25rem; height: 4.25rem; border-radius: 50%; display: grid; place-items: center;
+    background: var(--surface-strong); color: var(--text); box-shadow: 0 6px 24px rgba(0, 0, 0, 0.25);
+  }
+  .play:focus-visible { outline: 3px solid var(--accent); outline-offset: -3px; }
+</style>
+
+<script>
+  function init() {
+  document.querySelectorAll<HTMLElement>('.video[data-embed]:not([data-ready])').forEach((el) => {
+    el.dataset.ready = ''
+    el.querySelector('.play')?.addEventListener('click', () => {
+      const iframe = document.createElement('iframe')
+      iframe.src = el.dataset.embed!
+      iframe.title = el.querySelector('.play')?.getAttribute('aria-label') ?? 'Video'
+      iframe.allow = 'autoplay; fullscreen; picture-in-picture'
+      iframe.allowFullscreen = true
+      el.replaceChildren(iframe)
+    })
+  })
+  }
+  init()
+  document.addEventListener('site:render', init) // live preview re-renders
+</script>

@@ -1,0 +1,43 @@
+---
+import Base from '../layouts/Base.astro'
+import VideoEmbed from '../components/VideoEmbed.astro'
+import SectionHeading from '../components/SectionHeading.astro'
+import Sections from '../components/sections/Sections.astro'
+import {getReelsPage} from '../lib/content'
+import {DOCS, sanityAttr} from '../lib/visualEditing'
+const key = (r: any) => sanityAttr(Astro, DOCS.reelsPage, `reels[_key=="${r._key}"]`)
+
+const page = await getReelsPage(Astro)
+const [first, ...rest] = page.reels || []
+---
+<Base title="Reels & Videos">
+  <section class="container section first">
+    <SectionHeading text="Reels & Videos" />
+    {page.intro && <p class="intro">{page.intro}</p>}
+    {first && (
+      <figure class="feature" data-sanity={key(first)}>
+        <VideoEmbed url={first.url} title={first.title} />
+        <figcaption><strong>{first.title}</strong>{first.note && <span class="muted"> – {first.note}</span>}</figcaption>
+      </figure>
+    )}
+    {rest.length > 0 && (
+      <div class="grid">
+        {rest.map((r) => (
+          <figure data-sanity={key(r)}>
+            <VideoEmbed url={r.url} title={r.title} />
+            <figcaption><strong>{r.title}</strong>{r.category && <span class="muted"> · {r.category}</span>}</figcaption>
+          </figure>
+        ))}
+      </div>
+    )}
+  </section>
+  <Sections sections={page.sections} doc={DOCS.reelsPage} />
+</Base>
+<style>
+  .first { margin-top: clamp(1.5rem, 4vw, 3rem); }
+  .intro { max-width: 640px; }
+  figure { margin: 0; }
+  figcaption { margin-top: 0.6rem; line-height: 1.35; }
+  .feature { margin-bottom: 2.5rem; }
+  .feature figcaption { font-size: 1.15rem; }
+</style>

@@ -1,0 +1,13 @@
+---
+import Sparkle from './Sparkle.astro'
+import {getSettings} from '../lib/content'
+interface Props { text?: string; id?: string }
+const {text, id} = Astro.props
+const settings = await getSettings(Astro)
+---
+{text && (
+  <div class="section-title" id={id}>
+    {settings.showSparkles !== false && <Sparkle size={26} />}
+    <h2>{text}</h2>
+  </div>
+)}

@@ -1,0 +1,38 @@
+---
+// Shows a photo from the editor. If there's no photo yet, shows a striped placeholder.
+import {imageUrl} from '../lib/sanity'
+import type {Photo} from '../lib/types'
+
+interface Props {
+  photo?: Photo
+  width: number
+  height?: number
+  class?: string
+  loading?: 'lazy' | 'eager'
+  label?: string
+  /** click-to-edit tag for the live preview (see lib/visualEditing.ts) */
+  sanity?: string
+}
+const {photo, width, height, class: className, loading = 'lazy', label = 'Photo', sanity} = Astro.props
+const src = imageUrl(photo, width, height)
+const src2x = photo && !photo.src ? imageUrl(photo, width * 2, height ? height * 2 : undefined) : undefined
+---
+{
+  src ? (
+    <img
+      src={src}
+      srcset={src2x ? `${src} 1x, ${src2x} 2x` : undefined}
+      alt={photo?.alt || ''}
+      width={width}
+      height={height}
+      loading={loading}
+      decoding="async"
+      class={className}
+      data-sanity={sanity}
+    />
+  ) : (
+    <div class:list={['placeholder-img', className]} role="img" aria-label={photo?.alt || label} data-sanity={sanity}>
+      {photo?.alt || label}
+    </div>
+  )
+}

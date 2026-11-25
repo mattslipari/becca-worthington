@@ -1,0 +1,28 @@
+---
+import Img from '../Img.astro'
+import SectionHeading from '../SectionHeading.astro'
+import type {Section, Photo} from '../../lib/types'
+interface Props { section: Section }
+const {section} = Astro.props
+const photos: Photo[] = section.photos || []
+---
+{photos.length > 0 && (
+  <section class="container section">
+    <SectionHeading text={section.heading} />
+    <div class="gallery">
+      {photos.map((photo) => (
+        <figure>
+          <Img photo={photo} width={600} />
+          {photo.caption && <figcaption class="muted">{photo.caption}</figcaption>}
+        </figure>
+      ))}
+    </div>
+  </section>
+)}
+<style>
+  .gallery { columns: 3 260px; column-gap: 1rem; }
+  figure { margin: 0 0 1rem; break-inside: avoid; }
+  figure :global(img), figure :global(.placeholder-img) { width: 100%; height: auto; border-radius: var(--radius); }
+  figure :global(.placeholder-img) { aspect-ratio: 4/5; }
+  figcaption { font-size: 0.85rem; margin-top: 0.4rem; }
+</style>

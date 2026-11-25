@@ -1,0 +1,18 @@
+---
+import RichText from '../RichText.astro'
+import SectionHeading from '../SectionHeading.astro'
+import type {Section, LinkButton} from '../../lib/types'
+interface Props { section: Section }
+const {section} = Astro.props
+const buttons: LinkButton[] = section.buttons || []
+---
+<section class="container section narrow">
+  <SectionHeading text={section.heading} />
+  <RichText value={section.body} />
+  {buttons.length > 0 && (
+    <div class="btn-row">
+      {buttons.map((b) => <a class="btn" href={b.url} target={b.url.startsWith('http') ? '_blank' : undefined} rel="noopener">{b.label}</a>)}
+    </div>
+  )}
+</section>
+<style>.narrow { max-width: 760px; }</style>

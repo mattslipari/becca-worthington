@@ -1,0 +1,62 @@
+---
+import Sparkle from './Sparkle.astro'
+import type {Settings} from '../lib/types'
+import {getHome} from '../lib/content'
+interface Props { settings: Settings }
+const {settings} = Astro.props
+const path = Astro.url.pathname.replace(/\/$/, '') || '/'
+const home = await getHome(Astro)
+const hasContact = (home.sections || []).some((s) => s._type === 'contactSection' && !s.hidden)
+const links = [
+  {href: '/', label: 'Home'},
+  {href: '/resume', label: 'Resume'},
+  {href: '/reels', label: 'Reels'},
+  {href: '/projects', label: 'Projects'},
+  ...(hasContact ? [{href: '/#contact', label: 'Contact'}] : []),
+]
+const isCurrent = (href: string) => (href === '/' ? path === '/' : path.startsWith(href))
+---
+<header class="site-header">
+  <div class="container bar">
+    <a class="brand" href="/">
+      {settings.showSparkles !== false && <Sparkle size={18} />}
+      <span>{settings.name}</span>
+    </a>
+    <nav aria-label="Main">
+      <ul class="links desktop">
+        {links.map((l) => (
+          <li><a href={l.href} aria-current={isCurrent(l.href) ? 'page' : undefined}>{l.label}</a></li>
+        ))}
+      </ul>
+      <details class="menu mobile">
+        <summary aria-label="Menu"><span></span><span></span></summary>
+        <ul class="links">
+          {links.map((l) => (
+            <li><a href={l.href} aria-current={isCurrent(l.href) ? 'page' : undefined}>{l.label}</a></li>
+          ))}
+        </ul>
+      </details>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header { position: sticky; top: 0; z-index: 50; backdrop-filter: blur(10px); background: color-mix(in srgb, var(--bg-solid) 55%, transparent); }
+  .bar { display: flex; align-items: center; justify-content: space-between; min-height: 4rem; }
+  .brand { display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none; font-family: var(--font-display); font-weight: 800; text-transform: uppercase; letter-spacing: 0.02em; font-size: 1.1rem; }
+  .links { display: flex; gap: 2rem; list-style: none; margin: 0; padding: 0; }
+  .links a { text-decoration: none; text-transform: uppercase; letter-spacing: 0.14em; font-size: 0.85rem; font-weight: 500; padding-block: 0.35rem; border-bottom: 1.5px solid transparent; }
+  .links a:hover, .links a[aria-current='page'] { border-color: currentColor; }
+  .mobile { display: none; }
+  .menu summary { list-style: none; cursor: pointer; display: grid; gap: 6px; padding: 0.75rem 0.25rem; }
+  .menu summary::-webkit-details-marker { display: none; }
+  .menu summary span { display: block; width: 26px; height: 2px; background: var(--text); transition: transform 0.2s ease; }
+  .menu[open] summary span:first-child { transform: translateY(4px) rotate(45deg); }
+  .menu[open] summary span:last-child { transform: translateY(-4px) rotate(-45deg); }
+  .menu .links { position: absolute; left: 0; right: 0; top: 100%; flex-direction: column; gap: 0; padding: 0.5rem var(--space) 1.25rem; background: var(--bg-solid); box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12); }
+  .menu .links a { display: block; padding-block: 0.8rem; font-size: 1rem; }
+  @media (max-width: 760px) {
+    .desktop { display: none; }
+    .mobile { display: block; }
+  }
+</style>

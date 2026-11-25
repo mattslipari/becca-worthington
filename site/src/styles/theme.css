@@ -1,0 +1,72 @@
+/* ==========================================================================
+   THEME FILE – the whole look of the site lives here.
+   --------------------------------------------------------------------------
+   Becca picks one of these themes in the editor (Site settings → Look & feel).
+   To restyle the site, change the values below. To add a new theme:
+     1. copy one [data-theme="..."] block and rename it,
+     2. add the same name to THEMES in studio/schemas/singletons/settings.js.
+   ========================================================================== */
+
+:root {
+  /* Fonts (loaded in src/layouts/Base.astro) */
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'Jost', 'Avenir Next', system-ui, sans-serif;
+
+  /* Sizing */
+  --page-width: 1120px;
+  --radius: 4px;
+  --space: clamp(1rem, 2.5vw, 1.5rem);
+  --section-gap: clamp(3.5rem, 8vw, 6rem);
+}
+
+/* Seafoam – mint to sky blue, based on the original site */
+[data-theme='seafoam'] {
+  --bg: linear-gradient(115deg, #b6f0dc 0%, #a9dde8 45%, #8fb6f2 100%);
+  --bg-solid: #a9dde8;
+  --surface: rgba(255, 255, 255, 0.55);
+  --surface-strong: #d4f2f4;
+  --text: #121826;
+  --text-soft: #2f3b52;
+  --accent: #121a54;
+  --accent-contrast: #ffffff;
+  --line: rgba(18, 24, 38, 0.55);
+}
+
+/* Sunset – warm peach and rose */
+[data-theme='sunset'] {
+  --bg: linear-gradient(120deg, #ffe0c7 0%, #fbc7c2 50%, #e8b3d4 100%);
+  --bg-solid: #fbc7c2;
+  --surface: rgba(255, 255, 255, 0.55);
+  --surface-strong: #fff1e8;
+  --text: #2a1420;
+  --text-soft: #5b3646;
+  --accent: #8e2f4f;
+  --accent-contrast: #ffffff;
+  --line: rgba(42, 20, 32, 0.5);
+}
+
+/* Midnight – dark and dramatic */
+[data-theme='midnight'] {
+  --bg: radial-gradient(ellipse at top, #1d2a4a 0%, #0c1020 70%);
+  --bg-solid: #0c1020;
+  --surface: rgba(255, 255, 255, 0.06);
+  --surface-strong: #1a2340;
+  --text: #f3f0ea;
+  --text-soft: #b9bfd3;
+  --accent: #9fe3d3;
+  --accent-contrast: #0c1020;
+  --line: rgba(243, 240, 234, 0.4);
+}
+
+/* Paper – clean cream and black */
+[data-theme='paper'] {
+  --bg: #f6f1e9;
+  --bg-solid: #f6f1e9;
+  --surface: #ffffff;
+  --surface-strong: #ffffff;
+  --text: #141414;
+  --text-soft: #4a4a4a;
+  --accent: #141414;
+  --accent-contrast: #f6f1e9;
+  --line: rgba(20, 20, 20, 0.6);
+}

@@ -1,0 +1,29 @@
+---
+import VideoEmbed from '../VideoEmbed.astro'
+import SectionHeading from '../SectionHeading.astro'
+import {getReelsPage} from '../../lib/content'
+import type {Section} from '../../lib/types'
+interface Props { section: Section }
+const {section} = Astro.props
+const page = await getReelsPage(Astro)
+const reels = (page.reels || []).filter((r) => r.featured)
+---
+{reels.length > 0 && (
+  <section class="container section">
+    <SectionHeading text={section.heading} />
+    <div class="grid">
+      {reels.map((r) => (
+        <figure>
+          <VideoEmbed url={r.url} title={r.title} />
+          <figcaption><strong>{r.title}</strong>{r.category && <span class="muted"> · {r.category}</span>}</figcaption>
+        </figure>
+      ))}
+    </div>
+    <p class="all"><a class="btn" href="/reels">All videos</a></p>
+  </section>
+)}
+<style>
+  figure { margin: 0; }
+  figcaption { margin-top: 0.6rem; line-height: 1.35; }
+  .all { margin-top: 2rem; }
+</style>

@@ -1,0 +1,57 @@
+---
+// Swipeable headshot slideshow (works with touch on iPad/phones, arrows on desktop).
+import Img from './Img.astro'
+import type {Photo} from '../lib/types'
+import {sanityAttr, type DocRef} from '../lib/visualEditing'
+interface Props { photos?: Photo[]; doc?: DocRef; field?: string }
+const {doc, field = 'heroPhotos'} = Astro.props
+const photos = Astro.props.photos?.length ? Astro.props.photos : [{alt: 'Headshot'}]
+---
+<div class="slideshow" data-slideshow>
+  <div class="track" tabindex="0" aria-label="Headshots" role="region">
+    {photos.map((photo, i) => (
+      <div class="slide"><Img photo={photo} width={720} height={900} loading={i === 0 ? 'eager' : 'lazy'} label="Headshot" sanity={(photo as any)._key ? sanityAttr(Astro, doc, `${field}[_key=="${(photo as any)._key}"]`) : undefined} /></div>
+    ))}
+  </div>
+  {photos.length > 1 && (
+    <>
+      <button class="arrow prev" type="button" aria-label="Previous photo">‹</button>
+      <button class="arrow next" type="button" aria-label="Next photo">›</button>
+    </>
+  )}
+</div>
+<style>
+  .slideshow { position: relative; }
+  .track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; scrollbar-width: none; border-radius: var(--radius); }
+  .track::-webkit-scrollbar { display: none; }
+  .slide { flex: 0 0 100%; scroll-snap-align: start; aspect-ratio: 4 / 5; }
+  .slide :global(img), .slide :global(.placeholder-img) { width: 100%; height: 100%; object-fit: cover; }
+  .arrow {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    width: 2.75rem; height: 2.75rem; border-radius: 50%; border: 0; cursor: pointer;
+    background: color-mix(in srgb, var(--surface-strong) 85%, transparent); color: var(--text);
+    font-size: 1.8rem; line-height: 1; display: grid; place-items: center; padding-bottom: 4px;
+  }
+  .prev { left: 0.75rem; }
+  .next { right: 0.75rem; }
+</style>
+<script>
+  function init() {
+  document.querySelectorAll<HTMLElement>('[data-slideshow]:not([data-ready])').forEach((root) => {
+    root.dataset.ready = ''
+    const track = root.querySelector<HTMLElement>('.track')!
+    const go = (dir: number) => {
+      const w = track.clientWidth
+      const max = track.scrollWidth - w
+      let next = track.scrollLeft + dir * w
+      if (next > max + 2) next = 0
+      if (next < -2) next = max
+      track.scrollTo({left: next})
+    }
+    root.querySelector('.prev')?.addEventListener('click', () => go(-1))
+    root.querySelector('.next')?.addEventListener('click', () => go(1))
+  })
+  }
+  init()
+  document.addEventListener('site:render', init) // live preview re-renders
+</script>

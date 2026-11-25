@@ -1,0 +1,75 @@
+---
+// Only rendered inside the editor's live preview. Turns on click-to-edit overlays,
+// keeps the editor's address bar in sync, and refreshes the page when content changes.
+const {locals} = Astro
+---
+{locals.preview && (
+  <>
+    <a class="preview-badge" href={`/api/preview/disable?redirect=${encodeURIComponent(Astro.url.pathname)}`} data-preview-badge hidden>
+      Preview mode · showing unpublished changes · <u>exit</u>
+    </a>
+    <style>
+      .preview-badge {
+        position: fixed; left: 50%; bottom: 1rem; transform: translateX(-50%); z-index: 1000;
+        background: #111; color: #fff; padding: 0.5rem 1rem; border-radius: 999px;
+        font: 500 0.8rem/1.2 system-ui, sans-serif; text-decoration: none; box-shadow: 0 6px 20px rgba(0,0,0,.25);
+      }
+    </style>
+    <script>
+      import {enableVisualEditing} from '@sanity/visual-editing/enable-visual-editing'
+
+      const inEditor = window.self !== window.top || Boolean(window.opener)
+      if (!inEditor) document.querySelector<HTMLElement>('[data-preview-badge]')?.removeAttribute('hidden')
+
+      // Re-render the page in place with the latest draft content (no full reload / flicker).
+      let rendering: Promise<void> | null = null
+      async function rerender() {
+        if (rendering) return rendering
+        rendering = (async () => {
+          const res = await fetch(location.href, {cache: 'no-store', credentials: 'include'})
+          const doc = new DOMParser().parseFromString(await res.text(), 'text/html')
+          const next = doc.getElementById('site')
+          const current = document.getElementById('site')
+          if (next && current) current.innerHTML = next.innerHTML
+          const theme = doc.documentElement.dataset.theme
+          if (theme) document.documentElement.dataset.theme = theme
+          document.title = doc.title
+          document.dispatchEvent(new Event('site:render'))
+        })().finally(() => (rendering = null))
+        return rendering
+      }
+
+      enableVisualEditing({
+        zIndex: 999,
+        refresh: () => rerender(),
+        history: {
+          subscribe: (navigate) => {
+            navigate({type: 'replace', url: location.pathname + location.search})
+            return () => {}
+          },
+          update: (update) => {
+            if (update.type === 'pop') return history.back()
+            if (update.url !== location.pathname + location.search) location.assign(update.url)
+          },
+        },
+      })
+
+      // Check for content changes every 1.5s while the preview is visible.
+      let version = ''
+      async function poll() {
+        if (document.visibilityState === 'visible') {
+          try {
+            const res = await fetch('/api/preview/version', {cache: 'no-store', credentials: 'include'})
+            if (res.ok) {
+              const data = await res.json()
+              if (version && data.version !== version) await rerender()
+              version = data.version
+            }
+          } catch {}
+        }
+        setTimeout(poll, 1500)
+      }
+      poll()
+    </script>
+  </>
+)}

@@ -1,0 +1,91 @@
+---
+import Base from '../layouts/Base.astro'
+import Img from '../components/Img.astro'
+import SectionHeading from '../components/SectionHeading.astro'
+import Sections from '../components/sections/Sections.astro'
+import {getResume} from '../lib/content'
+import {originalUrl} from '../lib/sanity'
+import {DOCS, sanityAttr} from '../lib/visualEditing'
+
+const resume = await getResume(Astro)
+const headshots = resume.headshots || []
+const groups = (resume.creditGroups || []).filter((g) => g.credits?.length)
+---
+<Base title="Resume & Headshots">
+  <div class="container section first">
+    <SectionHeading text="Resume & Headshots" />
+    {resume.intro && <p class="intro">{resume.intro}</p>}
+    {resume.resumePdfUrl && (
+      <p><a class="btn" href={`${resume.resumePdfUrl}?dl=`} download>Download resume (PDF)</a></p>
+    )}
+  </div>
+
+  {headshots.length > 0 && (
+    <section class="container section">
+      <SectionHeading text="Headshots" />
+      <div class="headshots">
+        {headshots.map((photo) => {
+          const full = originalUrl(photo)
+          return (
+            <figure>
+              <Img photo={photo} width={480} height={600} label="Headshot" sanity={sanityAttr(Astro, DOCS.resume, `headshots[_key=="${(photo as any)._key}"]`)} />
+              <figcaption>
+                {photo.caption && <span>{photo.caption}</span>}
+                {full && <a href={full} download>Download</a>}
+              </figcaption>
+            </figure>
+          )
+        })}
+      </div>
+    </section>
+  )}
+
+  {groups.length > 0 && (
+    <section class="container section">
+      <SectionHeading text="Credits" />
+      {groups.map((group) => (
+        <div class="group">
+          <h3>{group.heading}</h3>
+          <table>
+            <tbody>
+              {group.credits!.map((c) => (
+                <tr>
+                  <td class="prod">{c.production}</td>
+                  <td>{c.role}</td>
+                  <td class="muted">{[c.company, c.year].filter(Boolean).join(' · ')}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ))}
+      {resume.skills && (
+        <div class="group">
+          <h3>Special skills</h3>
+          <p>{resume.skills}</p>
+        </div>
+      )}
+    </section>
+  )}
+
+  <Sections sections={resume.sections} doc={DOCS.resume} />
+</Base>
+
+<style>
+  .first { margin-top: clamp(1.5rem, 4vw, 3rem); margin-bottom: 0; }
+  .intro { max-width: 640px; }
+  .group { margin-bottom: 2.5rem; }
+  .group h3 { text-transform: uppercase; letter-spacing: 0.06em; font-size: 1.05rem; }
+  table { width: 100%; border-collapse: collapse; }
+  td { padding: 0.6rem 1rem 0.6rem 0; border-bottom: 1px solid color-mix(in srgb, var(--line) 40%, transparent); vertical-align: top; width: 33%; }
+  .prod { font-weight: 600; font-style: italic; }
+  @media (max-width: 640px) {
+    tr { display: block; padding: 0.6rem 0; border-bottom: 1px solid color-mix(in srgb, var(--line) 40%, transparent); }
+    td { display: block; border: 0; padding: 0; width: auto; }
+  }
+  .headshots { display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr)); }
+  figure { margin: 0; }
+  figure :global(img), figure :global(.placeholder-img) { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--radius); }
+  figcaption { display: flex; justify-content: space-between; gap: 1rem; margin-top: 0.5rem; font-size: 0.9rem; }
+  figcaption a { font-weight: 600; }
+</style>

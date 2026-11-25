@@ -1,0 +1,29 @@
+---
+import SectionHeading from '../SectionHeading.astro'
+import type {Section, Quote} from '../../lib/types'
+interface Props { section: Section }
+const {section} = Astro.props
+const quotes: Quote[] = section.quotes || []
+---
+{quotes.length > 0 && (
+  <section class="container section">
+    <SectionHeading text={section.heading} />
+    <div class="grid">
+      {quotes.map((q) => (
+        <blockquote class="card">
+          <p>“{q.text}”</p>
+          {q.source && (
+            <footer>
+              — {q.link ? <a href={q.link} target="_blank" rel="noopener">{q.source}</a> : q.source}
+            </footer>
+          )}
+        </blockquote>
+      ))}
+    </div>
+  </section>
+)}
+<style>
+  blockquote { margin: 0; }
+  blockquote p { font-family: var(--font-display); font-size: 1.35rem; line-height: 1.35; font-style: italic; margin: 0 0 1rem; }
+  footer { font-size: 0.85rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-soft); }
+</style>
