@@ -15,7 +15,7 @@ const reps = settings.representatives || []
   <div class="grid">
     {reps.map((r) => (
       <div class="card rep">
-        {r.region && <p class="region">{r.region}</p>}
+        {r.region && <p class="eyebrow">{r.region}</p>}
         <h3>{r.website ? <a href={r.website} target="_blank" rel="noopener">{r.agency}</a> : r.agency}</h3>
         {r.contactName && <p>{r.contactName}</p>}
         {r.email && <p><a href={`mailto:${clean(r.email)}`}>{r.email}</a></p>}
@@ -24,7 +24,7 @@ const reps = settings.representatives || []
     ))}
     {settings.email && (
       <div class="card rep">
-        <p class="region">Direct</p>
+        <p class="eyebrow">Direct</p>
         <h3>Email me</h3>
         <p><a href={`mailto:${clean(settings.email)}`}>{settings.email}</a></p>
       </div>
@@ -33,10 +33,10 @@ const reps = settings.representatives || []
   <div class="socials"><SocialLinks social={settings.social} /></div>
 </section>
 <style>
-  .intro { max-width: 640px; margin-top: -0.5rem; margin-bottom: 1.75rem; }
+  .intro { max-width: 640px; margin: -0.5rem auto 2rem; text-align: center; }
+  .rep { border-top: 4px solid var(--accent); }
   .rep p { margin: 0 0 0.25rem; overflow-wrap: anywhere; }
-  .rep h3 { margin-bottom: 0.5rem; }
+  .rep h3 { margin-bottom: 0.6rem; color: var(--accent); }
   .rep h3 a { text-decoration: none; }
-  .region { font-size: 0.75rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-soft); }
-  .socials { margin-top: 2rem; }
+  .socials { margin-top: 2.5rem; display: flex; justify-content: center; }
 </style>

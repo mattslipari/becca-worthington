@@ -1,19 +1,30 @@
 ---
 import SocialLinks from './SocialLinks.astro'
+import Sparkle from './Sparkle.astro'
 import type {Settings} from '../lib/types'
 import {clean} from '../lib/visualEditing'
 interface Props { settings: Settings }
 const {settings} = Astro.props
 ---
-<footer class="site-footer">
+<footer class="site-footer on-block">
   <div class="container inner">
-    <SocialLinks social={settings.social} size={24} />
-    {settings.email && <a href={`mailto:${clean(settings.email)}`}>{settings.email}</a>}
-    <p class="muted">© {new Date().getFullYear()} {settings.name}</p>
+    <p class="name">
+      {settings.showSparkles !== false && <Sparkle size={22} />}
+      {settings.name}
+    </p>
+    {settings.tagline && <p class="tagline">{settings.tagline}</p>}
+    <SocialLinks social={settings.social} size={26} />
+    {settings.email && <a class="email" href={`mailto:${clean(settings.email)}`}>{settings.email}</a>}
+    <p class="copy">© {new Date().getFullYear()} {settings.name}</p>
   </div>
 </footer>
 <style>
-  .site-footer { border-top: 1px solid var(--line); margin-top: var(--section-gap); padding-block: 2.5rem; }
-  .inner { display: flex; flex-wrap: wrap; gap: 1rem 2rem; align-items: center; justify-content: space-between; }
-  .inner p { margin: 0; font-size: 0.9rem; }
+  .site-footer { padding-block: clamp(2.5rem, 6vw, 4rem); text-align: center; }
+  .inner { display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+  .inner p { margin: 0; }
+  .name { display: inline-flex; align-items: center; gap: 0.6rem; font-family: var(--font-display); font-weight: 600; text-transform: uppercase; font-size: clamp(1.8rem, 4vw, 2.6rem); line-height: 1; }
+  .name :global(.sparkle) { color: var(--block-accent); }
+  .tagline { font-family: var(--font-wide); font-weight: 700; font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--block-accent); }
+  .email { font-weight: 500; }
+  .copy { font-size: 0.85rem; color: var(--text-soft); }
 </style>

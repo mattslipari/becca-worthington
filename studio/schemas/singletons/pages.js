@@ -15,6 +15,7 @@ export const home = defineType({
       description: 'Add one or more. If there are several, they rotate as a slideshow. Drag to reorder.',
       validation: (r) => r.min(1).error('Add at least one photo'),
     }),
+    defineField({name: 'bioHeading', title: 'Bio heading', type: 'string', initialValue: 'About me'}),
     defineField({name: 'bio', title: 'Bio', type: 'blockContent'}),
     sectionsField('Everything below the bio. Add, remove and drag to reorder.'),
   ],

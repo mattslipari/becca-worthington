@@ -11,7 +11,7 @@ const quotes: Quote[] = section.quotes || []
     <div class="grid">
       {quotes.map((q) => (
         <blockquote class="card">
-          <p>“{q.text}”</p>
+          <p>{q.text}</p>
           {q.source && (
             <footer>
               — {q.link ? <a href={q.link} target="_blank" rel="noopener">{q.source}</a> : q.source}
@@ -23,7 +23,8 @@ const quotes: Quote[] = section.quotes || []
   </section>
 )}
 <style>
-  blockquote { margin: 0; }
-  blockquote p { font-family: var(--font-display); font-size: 1.35rem; line-height: 1.35; font-style: italic; margin: 0 0 1rem; }
-  footer { font-size: 0.85rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-soft); }
+  blockquote { margin: 0; position: relative; padding-top: 2.75rem; }
+  blockquote::before { content: '“'; position: absolute; top: 0.25rem; left: 1.25rem; font-family: var(--font-display); font-size: 4.5rem; line-height: 1; color: var(--accent); }
+  blockquote p { font-size: 1.2rem; line-height: 1.5; font-style: italic; margin: 0 0 1rem; }
+  footer { font-family: var(--font-wide); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); }
 </style>

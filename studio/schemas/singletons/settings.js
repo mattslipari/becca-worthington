@@ -1,6 +1,7 @@
 import {defineField, defineType} from 'sanity'
 
 export const THEMES = [
+  {title: 'Bubblegum – bold pink blocks', value: 'bubblegum'},
   {title: 'Seafoam – mint to sky blue (like the original site)', value: 'seafoam'},
   {title: 'Sunset – warm peach and rose', value: 'sunset'},
   {title: 'Midnight – dark and dramatic', value: 'midnight'},

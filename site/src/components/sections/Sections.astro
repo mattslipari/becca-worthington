@@ -20,14 +20,20 @@ const components: Record<string, any> = {
   contactSection: ContactSection,
 }
 
-interface Props { sections?: Section[]; doc?: DocRef }
-const {doc} = Astro.props
+// `tintFirst`: whether the first "Automatic" section gets the light color band
+// (so bands keep alternating with whatever comes above the sections on that page).
+interface Props { sections?: Section[]; doc?: DocRef; tintFirst?: boolean }
+const {doc, tintFirst = true} = Astro.props
 const sections = (Astro.props.sections || []).filter((s) => !s.hidden && components[s._type])
+const band = (s: Section, i: number) => {
+  const bg = s.background && s.background !== 'auto' ? s.background : (i % 2 === 0) === tintFirst ? 'tint' : 'plain'
+  return bg === 'tint' ? 'band-tint' : bg === 'bold' ? 'band-bold' : undefined
+}
 ---
-{sections.map((section) => {
+{sections.map((section, i) => {
   const Component = components[section._type]
   return (
-    <div data-sanity={sanityAttr(Astro, doc, `sections[_key=="${section._key}"]`)}>
+    <div class={band(section, i)} data-sanity={sanityAttr(Astro, doc, `sections[_key=="${section._key}"]`)}>
       <Component section={section} />
     </div>
   )

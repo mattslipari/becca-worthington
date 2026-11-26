@@ -6,7 +6,7 @@ const {text, id} = Astro.props
 const settings = await getSettings(Astro)
 ---
 {text && (
-  <div class="section-title" id={id}>
+  <div class="section-title center" id={id}>
     {settings.showSparkles !== false && <Sparkle size={26} />}
     <h2>{text}</h2>
   </div>

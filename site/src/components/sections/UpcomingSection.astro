@@ -28,11 +28,12 @@ const events: Event[] = section.events || []
 <style>
   .events { display: grid; gap: 1.25rem; }
   .event { display: flex; gap: 1.5rem; align-items: center; }
-  .event .img { flex: 0 0 140px; aspect-ratio: 1; border-radius: var(--radius); overflow: hidden; }
+  .event { border-left: 6px solid var(--accent); }
+  .event .img { flex: 0 0 140px; aspect-ratio: 1; overflow: hidden; }
   .event .img :global(*) { width: 100%; height: 100%; object-fit: cover; }
   .event p { margin: 0 0 0.35rem; }
   .event h3 { margin-bottom: 0.25rem; }
-  .when { font-size: 0.8rem; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 600; color: var(--accent); }
+  .when { font-family: var(--font-wide); font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase; font-weight: 700; color: var(--accent); }
   .event .btn { margin-top: 0.75rem; }
   @media (max-width: 560px) { .event { flex-direction: column; align-items: stretch; } .event .img { flex-basis: auto; aspect-ratio: 16/10; } }
 </style>

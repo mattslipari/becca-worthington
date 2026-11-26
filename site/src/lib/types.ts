@@ -18,12 +18,12 @@ export type Representative = {agency: string; region?: string; contactName?: str
 export type Quote = {text: string; source?: string; link?: string}
 export type Event = {title: string; role?: string; where?: string; when?: string; link?: string; image?: Photo}
 
-export type Section = {_key: string; _type: string; heading?: string; hidden?: boolean; [k: string]: any}
+export type Section = {_key: string; _type: string; heading?: string; hidden?: boolean; background?: 'auto' | 'plain' | 'tint' | 'bold'; [k: string]: any}
 
 export type Settings = {
   name: string
   tagline?: string
-  theme?: 'seafoam' | 'sunset' | 'midnight' | 'paper'
+  theme?: 'bubblegum' | 'seafoam' | 'sunset' | 'midnight' | 'paper'
   showSparkles?: boolean
   email?: string
   representatives?: Representative[]
@@ -31,7 +31,7 @@ export type Settings = {
   seoDescription?: string
   shareImage?: Photo
 }
-export type Home = {heroPhotos?: Photo[]; bio?: Block[]; sections?: Section[]}
+export type Home = {heroPhotos?: Photo[]; bioHeading?: string; bio?: Block[]; sections?: Section[]}
 export type Resume = {intro?: string; resumePdfUrl?: string; headshots?: Photo[]; creditGroups?: CreditGroup[]; skills?: string; sections?: Section[]}
 export type ReelsPage = {intro?: string; reels?: Reel[]; sections?: Section[]}
 export type Project = {

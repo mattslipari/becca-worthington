@@ -16,7 +16,7 @@ On the left (or behind the ☰ button) you'll see:
 
 | Menu item | What's in it |
 |---|---|
-| **Home page** | Your headshot slideshow, bio, and the sections below it |
+| **Home page** | Your headshot slideshow, the "About me" bio, and the sections below it |
 | **Resume & headshots** | Resume PDF, downloadable headshots, your credits |
 | **Reels & videos** | All your videos |
 | **Site settings** | Name, tagline, **color theme**, email, agents, social links |
@@ -74,7 +74,13 @@ When it closes, delete the show, or turn on **"Hide this section for now"**.
 Turn on **"Feature on the Home page"** to show it on the front page.
 
 ### Change the colors
-**Site settings** → **Look & feel** tab → choose a theme → **Publish**.
+**Site settings** → **Look & feel** tab → choose a theme (Bubblegum, Seafoam, Sunset, Midnight or Paper) → **Publish**.
+Every theme uses the same layout. Only the colors change, so you can try them all safely.
+
+### Change a section's background
+Open a section under **Page sections** → **Background**:
+- **Automatic** (the default) alternates white and a light color down the page.
+- **White**, **Light color** or **Bold color** picks one yourself. Bold color is great for one standout section, like Contact.
 
 ### Rearrange the Home page
 **Home page** → **Page sections** → drag sections up and down by the ⋮⋮ handle. Use **+ Add item** to add a new one (gallery, text block, press, etc.).

@@ -14,6 +14,23 @@ import {EnvelopeIcon} from '@sanity/icons/Envelope'
 const common = (heading) => [
   defineField({name: 'heading', title: 'Heading', type: 'string', initialValue: heading}),
   defineField({
+    name: 'background',
+    title: 'Background',
+    type: 'string',
+    initialValue: 'auto',
+    options: {
+      layout: 'radio',
+      direction: 'horizontal',
+      list: [
+        {title: 'Automatic', value: 'auto'},
+        {title: 'White', value: 'plain'},
+        {title: 'Light color', value: 'tint'},
+        {title: 'Bold color', value: 'bold'},
+      ],
+    },
+    description: 'Automatic alternates white and light color down the page.',
+  }),
+  defineField({
     name: 'hidden',
     title: 'Hide this section for now',
     type: 'boolean',

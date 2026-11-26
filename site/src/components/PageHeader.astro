@@ -1,0 +1,36 @@
+---
+// The bold color block at the top of inner pages (Resume, Reels, Projects…).
+import Sparkle from './Sparkle.astro'
+import {getSettings} from '../lib/content'
+interface Props { title?: string; eyebrow?: string; intro?: string }
+const {title, eyebrow, intro} = Astro.props
+const settings = await getSettings(Astro)
+---
+<div class="page-header-wrap">
+  <header class="container page-header on-block">
+    {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+    <h1>
+      {settings.showSparkles !== false && <Sparkle size={30} />}
+      {title}
+    </h1>
+    {intro && <p class="intro">{intro}</p>}
+    <slot />
+  </header>
+</div>
+<style>
+  .page-header-wrap { padding-top: clamp(0.75rem, 2.5vw, 2rem); }
+  .page-header { padding: clamp(2rem, 5vw, 3.5rem) clamp(1.5rem, 5vw, 4rem); text-align: center; }
+  h1 {
+    display: inline-flex; align-items: center; gap: 0.6rem; margin: 0;
+    font-family: var(--font-wide); font-weight: 800; font-size: clamp(2.1rem, 5.5vw, 4rem); line-height: 1.05;
+    color: var(--on-block); text-wrap: balance;
+  }
+  h1 :global(.sparkle) { color: var(--block-accent); flex: none; }
+  .eyebrow { color: var(--block-accent); }
+  .intro {
+    margin: 1rem auto 0; max-width: 46rem; color: var(--block-accent); text-wrap: balance;
+    font-family: var(--font-wide); font-weight: 600; letter-spacing: 0.06em; font-size: clamp(1rem, 1.7vw, 1.15rem); line-height: 1.6;
+  }
+  .page-header > :global(.btn-row) { justify-content: center; margin-top: 1.75rem; }
+  @media (max-width: 560px) { h1 :global(.sparkle) { display: none; } }
+</style>

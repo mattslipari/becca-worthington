@@ -23,7 +23,7 @@ export const client: SanityClient | null = projectId
 // Only these fields get invisible "click-to-edit" markers in the live preview.
 // They're all plain visible text; links, emails, colors etc. must stay untouched.
 const EDITABLE_TEXT = new Set([
-  'name', 'tagline', 'text', 'heading', 'intro', 'title', 'role', 'where', 'when', 'production',
+  'name', 'tagline', 'text', 'heading', 'bioHeading', 'intro', 'title', 'role', 'where', 'when', 'production',
   'company', 'year', 'source', 'summary', 'label', 'caption', 'note', 'kind', 'agency', 'region',
   'contactName', 'skills', 'phone',
 ])

@@ -89,7 +89,13 @@ npm run dev          # http://localhost:3333
 
 ## Changing the look
 
-- **Colors, fonts and spacing** are all in [`site/src/styles/theme.css`](site/src/styles/theme.css). Each theme is a block of CSS variables.
+- **Colors, fonts and spacing** are all in [`site/src/styles/theme.css`](site/src/styles/theme.css). Each theme is a block of CSS variables
+  for three surfaces: the page (`--bg`, `--ink`, `--brand`), a light band (`--tint`) and a bold block (`--block`, `--on-block`, `--block-accent`).
+- **Layout idea** (inspired by a site Becca liked): a bold color block at the top of every page, tall condensed headings (Oswald),
+  a wide heavy name (Jost 800), photos in white "printed" frames, videos in colored frames, and sections that alternate
+  white / light-color bands. Classes: `.on-block` / `.band-bold` (bold block, swaps the text colors), `.band-tint`, `.framed`, `.btn`, `.btn.ghost`.
+- Each section has a **Background** setting (Automatic / White / Light color / Bold color); see `band()` in
+  [`Sections.astro`](site/src/components/sections/Sections.astro).
 - **Adding a theme:** copy a `[data-theme="…"]` block in `theme.css`, then add the same value to `THEMES` in [`studio/schemas/singletons/settings.js`](studio/schemas/singletons/settings.js) so Becca can pick it.
 - **Fonts** are loaded in [`site/src/layouts/Base.astro`](site/src/layouts/Base.astro) (Google Fonts link) and named in `theme.css`.
 

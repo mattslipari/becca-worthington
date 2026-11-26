@@ -12,7 +12,7 @@ const photos: Photo[] = section.photos || []
     <div class="gallery">
       {photos.map((photo) => (
         <figure>
-          <Img photo={photo} width={600} />
+          <div class="framed"><Img photo={photo} width={600} /></div>
           {photo.caption && <figcaption class="muted">{photo.caption}</figcaption>}
         </figure>
       ))}
@@ -20,9 +20,9 @@ const photos: Photo[] = section.photos || []
   </section>
 )}
 <style>
-  .gallery { columns: 3 260px; column-gap: 1rem; }
-  figure { margin: 0 0 1rem; break-inside: avoid; }
-  figure :global(img), figure :global(.placeholder-img) { width: 100%; height: auto; border-radius: var(--radius); }
+  .gallery { columns: 3 260px; column-gap: clamp(1rem, 2.5vw, 1.75rem); }
+  figure { margin: 0 0 clamp(1rem, 2.5vw, 1.75rem); break-inside: avoid; }
+  figure :global(img) { height: auto; }
   figure :global(.placeholder-img) { aspect-ratio: 4/5; }
-  figcaption { font-size: 0.85rem; margin-top: 0.4rem; }
+  figcaption { font-size: 0.85rem; margin-top: 0.5rem; text-align: center; }
 </style>

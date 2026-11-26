@@ -5,68 +5,111 @@
    To restyle the site, change the values below. To add a new theme:
      1. copy one [data-theme="..."] block and rename it,
      2. add the same name to THEMES in studio/schemas/singletons/settings.js.
+
+   Each theme has three "surfaces":
+     • the page itself        --bg, text in --ink, headings/buttons in --brand
+     • a light color band     --tint (ink text on top)
+     • a bold color block     --block (the hero, footer and "Bold color" sections),
+                              text in --on-block, the tagline in --block-accent
+   Keep text readable: --brand on --bg and --on-block on --block should have a
+   contrast ratio of at least 4.5 (3 for big headings). Check at webaim.org/resources/contrastchecker
    ========================================================================== */
 
 :root {
   /* Fonts (loaded in src/layouts/Base.astro) */
-  --font-display: 'Playfair Display', Georgia, serif;
+  --font-display: 'Oswald', 'Arial Narrow', sans-serif-condensed, sans-serif; /* tall condensed headings */
+  --font-wide: 'Jost', 'Avenir Next', system-ui, sans-serif; /* big name + spaced labels */
   --font-body: 'Jost', 'Avenir Next', system-ui, sans-serif;
 
   /* Sizing */
-  --page-width: 1120px;
-  --radius: 4px;
-  --space: clamp(1rem, 2.5vw, 1.5rem);
+  --page-width: 1180px;
+  --radius: 2px;
+  --frame-width: clamp(6px, 0.9vw, 10px); /* the white border around framed photos */
+  --space: clamp(1rem, 3vw, 2rem);
   --section-gap: clamp(3.5rem, 8vw, 6rem);
+}
+
+/* Bubblegum – bold pink blocks (inspired by the site Becca liked) */
+[data-theme='bubblegum'] {
+  --bg: #ffffff;
+  --surface: #ffffff;
+  --ink: #2a1520;
+  --ink-soft: #66485a;
+  --brand: #c7356a;
+  --brand-contrast: #ffffff;
+  --tint: #fde6ee;
+  --block: #e5638a;
+  --block-solid: #e5638a;
+  --on-block: #ffffff;
+  --on-block-contrast: #c7356a;
+  --block-accent: #4a0b24;
+  --frame: #ffffff;
 }
 
 /* Seafoam – mint to sky blue, based on the original site */
 [data-theme='seafoam'] {
-  --bg: linear-gradient(115deg, #b6f0dc 0%, #a9dde8 45%, #8fb6f2 100%);
-  --bg-solid: #a9dde8;
-  --surface: rgba(255, 255, 255, 0.55);
-  --surface-strong: #d4f2f4;
-  --text: #121826;
-  --text-soft: #2f3b52;
-  --accent: #121a54;
-  --accent-contrast: #ffffff;
-  --line: rgba(18, 24, 38, 0.55);
+  --bg: #ffffff;
+  --surface: #ffffff;
+  --ink: #121826;
+  --ink-soft: #3a465c;
+  --brand: #12706f;
+  --brand-contrast: #ffffff;
+  --tint: #e3f6f3;
+  --block: linear-gradient(115deg, #b6f0dc 0%, #a9dde8 45%, #8fb6f2 100%);
+  --block-solid: #a9dde8;
+  --on-block: #121a54;
+  --on-block-contrast: #ffffff;
+  --block-accent: #0f5e6b;
+  --frame: #ffffff;
 }
 
-/* Sunset – warm peach and rose */
+/* Sunset – terracotta and peach */
 [data-theme='sunset'] {
-  --bg: linear-gradient(120deg, #ffe0c7 0%, #fbc7c2 50%, #e8b3d4 100%);
-  --bg-solid: #fbc7c2;
-  --surface: rgba(255, 255, 255, 0.55);
-  --surface-strong: #fff1e8;
-  --text: #2a1420;
-  --text-soft: #5b3646;
-  --accent: #8e2f4f;
-  --accent-contrast: #ffffff;
-  --line: rgba(42, 20, 32, 0.5);
+  --bg: #fffaf6;
+  --surface: #ffffff;
+  --ink: #2a1611;
+  --ink-soft: #5e4038;
+  --brand: #b0401f;
+  --brand-contrast: #ffffff;
+  --tint: #fde8de;
+  --block: #c44a27;
+  --block-solid: #c44a27;
+  --on-block: #ffffff;
+  --on-block-contrast: #b0401f;
+  --block-accent: #ffe6a8;
+  --frame: #ffffff;
 }
 
 /* Midnight – dark and dramatic */
 [data-theme='midnight'] {
-  --bg: radial-gradient(ellipse at top, #1d2a4a 0%, #0c1020 70%);
-  --bg-solid: #0c1020;
-  --surface: rgba(255, 255, 255, 0.06);
-  --surface-strong: #1a2340;
-  --text: #f3f0ea;
-  --text-soft: #b9bfd3;
-  --accent: #9fe3d3;
-  --accent-contrast: #0c1020;
-  --line: rgba(243, 240, 234, 0.4);
+  --bg: #0c1020;
+  --surface: #1a2340;
+  --ink: #f3f0ea;
+  --ink-soft: #b9bfd3;
+  --brand: #9fe3d3;
+  --brand-contrast: #0c1020;
+  --tint: #141b33;
+  --block: radial-gradient(ellipse at top left, #26355e 0%, #1d2a4a 60%);
+  --block-solid: #1d2a4a;
+  --on-block: #f3f0ea;
+  --on-block-contrast: #0c1020;
+  --block-accent: #9fe3d3;
+  --frame: #f3f0ea;
 }
 
 /* Paper – clean cream and black */
 [data-theme='paper'] {
   --bg: #f6f1e9;
-  --bg-solid: #f6f1e9;
   --surface: #ffffff;
-  --surface-strong: #ffffff;
-  --text: #141414;
-  --text-soft: #4a4a4a;
-  --accent: #141414;
-  --accent-contrast: #f6f1e9;
-  --line: rgba(20, 20, 20, 0.6);
+  --ink: #141414;
+  --ink-soft: #4a4a4a;
+  --brand: #141414;
+  --brand-contrast: #f6f1e9;
+  --tint: #ece3d4;
+  --block: #141414;
+  --block-solid: #141414;
+  --on-block: #f6f1e9;
+  --on-block-contrast: #141414;
+  --block-accent: #e9c46a;
+  --frame: #ffffff;
 }
